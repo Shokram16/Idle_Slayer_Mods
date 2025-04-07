@@ -21,8 +21,8 @@ Tired of sending your minions on missions and spending days prestiging a level 1
 
 Then I'm here to help you once and for all!
 
-With Enhanced_Divinities, a single prestige will grant you 99,999 DP instantly!
+With Enhanced_Divinities, you can configure your settings to either max the level of the prestiging minion or a custom level!
 
 *(This may affect the user experience.)*
 
-This patch modifies the prestige action, setting your minion’s level to 100,000, allowing you to obtain thousands of DP effortlessly.
+This patch modifies the prestige action, alterating your minion’s level, allowing you to obtain thousands of DP effortlessly.
