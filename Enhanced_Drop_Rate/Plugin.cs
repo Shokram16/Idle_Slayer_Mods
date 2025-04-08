@@ -11,12 +11,12 @@ namespace Enhanced_Drop_Rate;
 
 public class Plugin : MelonMod
 {
-    internal static ConfigFile Config;
+    internal static Settings Settings;
     internal static readonly MelonLogger.Instance Logger = Melon<Plugin>.Logger;
 
     public override void OnInitializeMelon()
     {
-        Config = new(MyPluginInfo.PLUGIN_GUID);
+        Settings = new(MyPluginInfo.PLUGIN_GUID);
         Logger.Msg($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
 

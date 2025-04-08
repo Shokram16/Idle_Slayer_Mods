@@ -16,6 +16,8 @@ public class Enhanced_Drop_Rate : MonoBehaviour
 
     public void Start()
     {
+        if (!Plugin.Settings.UncapMaterials.Value) return;
+
         _dropClones = (Il2CppReferenceArray<DropObject>)Resources.FindObjectsOfTypeAll<DropObject>();
         foreach (var drop in _dropClones)
         {
@@ -31,9 +33,26 @@ public class Enhanced_Drop_Rate : MonoBehaviour
 
     public void Update()
     {
-        if (_playerInventory.dropChance < 100)
+        if ((_playerInventory.dropChance < 100 || _playerInventory.giantsDropChance < 100) && Plugin.Settings.MaxDropRate.Value)
+        {
             _playerInventory.dropChance = 100;
+            _playerInventory.giantsDropChance = 100;
+        }
 
+        if ((_playerInventory.armoryExcellentModifier < 100 ||
+            _playerInventory.armoryOptionsModifier < 100 ||
+            _playerInventory.armoryItemAscendingHeightsChance < 100 ||
+            // _playerInventory.increaseChestHuntArmoryChestsChance < 100 ||
+            _playerInventory.increaseBonusStageArmoryChestsChance < 100) &&
+            Plugin.Settings.MaxArmoryDropRate.Value)
+        {
+            _playerInventory.armoryExcellentModifier = 100;
+            _playerInventory.armoryOptionsModifier = 100;
+            _playerInventory.armoryItemAscendingHeightsChance = 100;
+            // Makes every chest be a chest in a chest
+            // _playerInventory.increaseChestHuntArmoryChestsChance = 100;
+            _playerInventory.increaseBonusStageArmoryChestsChance = 100;
+        }
     }
 }
 
