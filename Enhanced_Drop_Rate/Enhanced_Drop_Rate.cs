@@ -24,7 +24,6 @@ public class Enhanced_Drop_Rate : MonoBehaviour
             if (drop.name == "Drop(Clone)" && drop.gameObject.activeInHierarchy && drop.drop.maxAmount > 0)
             {
                 drop.drop.maxAmount = 0;
-                Plugin.Logger.Msg($"Modificado {drop.name}");
                 drop.drop.amount -= 2;
                 drop.drop.AddDrop(1);
             }
@@ -42,16 +41,18 @@ public class Enhanced_Drop_Rate : MonoBehaviour
         if ((_playerInventory.armoryExcellentModifier < 100 ||
             _playerInventory.armoryOptionsModifier < 100 ||
             _playerInventory.armoryItemAscendingHeightsChance < 100 ||
-            // _playerInventory.increaseChestHuntArmoryChestsChance < 100 ||
             _playerInventory.increaseBonusStageArmoryChestsChance < 100) &&
             Plugin.Settings.MaxArmoryDropRate.Value)
         {
             _playerInventory.armoryExcellentModifier = 100;
             _playerInventory.armoryOptionsModifier = 100;
             _playerInventory.armoryItemAscendingHeightsChance = 100;
-            // Makes every chest be a chest in a chest
-            // _playerInventory.increaseChestHuntArmoryChestsChance = 100;
             _playerInventory.increaseBonusStageArmoryChestsChance = 100;
+        }
+
+        if (_playerInventory.increaseChestHuntArmoryChestsChance < 100 && Plugin.Settings.IncreaseChestInAChestChance.Value > 0)
+        {
+            _playerInventory.increaseChestHuntArmoryChestsChance = Plugin.Settings.IncreaseChestInAChestChance.Value;
         }
     }
 }
