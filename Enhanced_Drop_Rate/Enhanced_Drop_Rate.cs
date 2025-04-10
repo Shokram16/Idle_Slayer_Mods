@@ -1,3 +1,4 @@
+using HarmonyLib;
 using Il2Cpp;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
@@ -6,8 +7,8 @@ namespace Enhanced_Drop_Rate;
 
 public class Enhanced_Drop_Rate : MonoBehaviour
 {
-    private Il2CppReferenceArray<DropObject> _dropClones;
     private PlayerInventory _playerInventory;
+    public static Il2CppReferenceArray<DropObject> _dropClones;
 
     public void Awake()
     {
@@ -26,6 +27,8 @@ public class Enhanced_Drop_Rate : MonoBehaviour
                 drop.drop.maxAmount = 0;
                 drop.drop.amount -= 2;
                 drop.drop.AddDrop(1);
+
+                drop.buyMoreButton.image.enabled = false;
             }
         }
     }
