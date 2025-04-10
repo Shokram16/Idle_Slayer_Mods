@@ -25,6 +25,9 @@
       <Reference Include="UnityEngine.InputLegacyModule">
         <HintPath>../../Idle-Slayer-Mods/Libraries/UnityEngine.InputLegacyModule.dll</HintPath>
       </Reference>
+      <Reference Include="UnityEngine.UI">
+        <HintPath>../../Idle-Slayer-Mods/Libraries/UnityEngine.UI.dll</HintPath>
+      </Reference>
       <Reference Include="Assembly-CSharp">
         <HintPath>../../Idle-Slayer-Mods/Libraries\Assembly-CSharp.dll</HintPath>
       </Reference>

@@ -10,6 +10,6 @@ internal sealed class Settings(string configName) : BaseConfig(configName)
     protected override void SetBindings()
     {
         MinionLevels = Bind("MinionLevels", 0,
-            "Minion level on prestige, if 0 it will be minion max level");
+            "Minion level on prestige, if '0' it will be minion max level");
     }
 }
