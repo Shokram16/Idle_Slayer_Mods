@@ -35,8 +35,6 @@ public class Enhanced_Divinities : MonoBehaviour
         {
             if (__instance.name == "Confirm Button" && PrestigeContext.IsPrestigePopupOpen)
             {
-                Plugin.Logger.Msg(ConsoleColor.Yellow, "[!] Se presionó el Confirm Button de Prestige");
-
                 Il2CppArrayBase<Minion> minions = (Il2CppReferenceArray<Minion>)Resources.FindObjectsOfTypeAll<Minion>();
 
                 foreach (var minion in minions)
