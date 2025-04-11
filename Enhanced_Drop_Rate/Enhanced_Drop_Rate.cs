@@ -25,7 +25,7 @@ public class Enhanced_Drop_Rate : MonoBehaviour
             if (drop.name == "Drop(Clone)" && drop.gameObject.activeInHierarchy && drop.drop.maxAmount > 0)
             {
                 drop.drop.maxAmount = 0;
-                drop.drop.amount -= 2;
+                drop.drop.amount -= 1;
                 drop.drop.AddDrop(1);
 
                 drop.buyMoreButton.image.enabled = false;
