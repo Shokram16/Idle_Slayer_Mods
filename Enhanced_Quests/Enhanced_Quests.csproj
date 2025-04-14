@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdleSlayerMods.Common" Version="1.1.7-ML" />
+    <PackageReference Include="LavaGang.MelonLoader" Version="0.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Il2CppInterop.Runtime">
+      <HintPath>../../Libraries/Il2CppInterop.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>../../Libraries/Il2Cppmscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>../../Libraries/UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>../../Libraries/UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>../../Libraries/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>../../Libraries\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="IdleSlayerMods.Common">
+      <HintPath>../../Libraries/IdleSlayerMods.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>../../Libraries/0Harmony.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Enhanced_Quests.csproj.user" />
+  </ItemGroup>
+
+</Project>
