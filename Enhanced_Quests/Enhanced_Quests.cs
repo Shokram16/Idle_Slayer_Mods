@@ -12,10 +12,12 @@ public class Enhaced_Quests : MonoBehaviour
     private static WeeklyQuestsManager _weeklyQuestsManager;
     private static GameObject _dailyQuestManagerObject;
     private static GameObject _gameObject;
+    private static PortalButton _portalButton;
 
     public void Awake()
     {
-       CheckToRegenerate();
+        CheckToRegenerate();
+        _portalButton = PortalButton.instance;
     }
 
     // Comprobar si es necesario volver a conseguir los objects etc
@@ -40,10 +42,10 @@ public class Enhaced_Quests : MonoBehaviour
                 dailyQuestsCount++;
         }
 
-        if (dailyQuestsCount == 0 && CraftableSkills.dailyQuests)
+        if (dailyQuestsCount == 0 && CraftableSkills.dailyQuests && Plugin.Settings.ResetDailies.Value)
             _dailyQuestsManager.RegenerateDailys();
 
-        if (weeklyQuestsCount == 0 && CraftableSkills.weeklyQuests)
+        if (weeklyQuestsCount == 0 && CraftableSkills.weeklyQuests && Plugin.Settings.ResetWeeklies.Value)
             _weeklyQuestsManager.RegenerateWeeklies();
 
     }
@@ -56,6 +58,23 @@ public class Enhaced_Quests : MonoBehaviour
             if (__instance.name != "Button") return;
             CheckToRegenerate();
         }
+    }
+
+    [HarmonyPatch(typeof(Button), "Press")]
+    public class Patch_PortalButton
+    {
+        static void Postfix(Button __instance)
+        {
+            if (__instance.name != "Portal Button" && __instance.name != "Portal Button(Clone)") return;
+            CheckToResetPortal();
+        }
+    }
+
+    public static void CheckToResetPortal()
+    {
+        if (_portalButton.currentCd > 0 && Plugin.Settings.ResetPortal.Value)
+            _portalButton.currentCd = 0;
+
     }
 
 

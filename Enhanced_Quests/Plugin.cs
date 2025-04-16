@@ -11,9 +11,11 @@ namespace Enhanced_Quests;
 public class Plugin : MelonMod
 {
     internal static readonly MelonLogger.Instance Logger = Melon<Plugin>.Logger;
+    internal static Settings Settings;
     
     public override void OnInitializeMelon()
     {
+        Settings = new(MyPluginInfo.PLUGIN_GUID);
         Logger.Msg($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
     }
 
