@@ -1,8 +1,5 @@
 using HarmonyLib;
-using IdleSlayerMods.Common.Extensions;
 using Il2Cpp;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using MelonLoader;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +12,11 @@ public class Enhaced_Quests : MonoBehaviour
     private static WeeklyQuestsManager _weeklyQuestsManager;
     private static GameObject _dailyQuestManagerObject;
     private static GameObject _gameObject;
+
+    public void Awake()
+    {
+       CheckToRegenerate();
+    }
 
     // Comprobar si es necesario volver a conseguir los objects etc
     public static void CheckToRegenerate()
@@ -38,10 +40,10 @@ public class Enhaced_Quests : MonoBehaviour
                 dailyQuestsCount++;
         }
 
-        if (dailyQuestsCount == 0)
+        if (dailyQuestsCount == 0 && CraftableSkills.dailyQuests)
             _dailyQuestsManager.RegenerateDailys();
 
-        if (weeklyQuestsCount == 0)
+        if (weeklyQuestsCount == 0 && CraftableSkills.weeklyQuests)
             _weeklyQuestsManager.RegenerateWeeklies();
 
     }

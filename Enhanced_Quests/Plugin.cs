@@ -21,5 +21,6 @@ public class Plugin : MelonMod
     {
         if (sceneName != "Game") return;
         ModUtils.RegisterComponent<Enhaced_Quests>();
+        ModUtils.RegisterComponent<CraftableSkills>();
     }
 }
