@@ -13,11 +13,17 @@ public class Enhaced_Quests : MonoBehaviour
     private static GameObject _dailyQuestManagerObject;
     private static GameObject _gameObject;
     private static PortalButton _portalButton;
+    private static DailyQuestReroll _dailyQuestReroll;
+    private static WeeklyQuestReroll _weeklyQuestReroll;
 
     public void Awake()
     {
         CheckToRegenerate();
         _portalButton = PortalButton.instance;
+        _dailyQuestReroll = DailyQuestReroll.instance;
+        _weeklyQuestReroll = WeeklyQuestReroll.instance;
+
+        CheckToRerollQuests();
     }
 
     // Comprobar si es necesario volver a conseguir los objects etc
@@ -70,11 +76,30 @@ public class Enhaced_Quests : MonoBehaviour
         }
     }
 
+    [HarmonyPatch(typeof(Button), "Press")]
+    public class Patch_RerollButton
+    {
+        static void Postfix(Button __instance)
+        {
+            if (__instance.name != "Confirm Button" && __instance.name != "Open Shop") return;
+
+            CheckToRerollQuests();
+        }
+    }
+
     public static void CheckToResetPortal()
     {
         if (_portalButton.currentCd > 0 && Plugin.Settings.ResetPortal.Value)
             _portalButton.currentCd = 0;
+    }
 
+    public static void CheckToRerollQuests()
+    {
+        if (Plugin.Settings.ResetReroll.Value)
+        {
+            _dailyQuestReroll.rerollEnabled = true;
+            _weeklyQuestReroll.rerollEnabled = true;
+        }
     }
 
 

@@ -8,6 +8,7 @@ internal sealed class Settings(string configName) : BaseConfig(configName)
     internal MelonPreferences_Entry<bool> ResetDailies;
     internal MelonPreferences_Entry<bool> ResetWeeklies;
     internal MelonPreferences_Entry<bool> ResetPortal;
+    internal MelonPreferences_Entry<bool> ResetReroll;
 
 
     protected override void SetBindings()
@@ -17,7 +18,8 @@ internal sealed class Settings(string configName) : BaseConfig(configName)
         ResetWeeklies = Bind("ResetWeeklies", true,
             "Toggle Reset Weeklies");
         ResetPortal = Bind("ResetPortal", false,
-            "Toggle Reset Weeklies");
-
+            "Toggle Reset Portal");
+        ResetReroll = Bind("ResetReroll", false,
+                "Toggle Reset Quest Reroll");
     }
 }
