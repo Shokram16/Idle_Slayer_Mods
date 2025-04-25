@@ -9,6 +9,7 @@ internal sealed class Settings(string configName) : BaseConfig(configName)
     internal MelonPreferences_Entry<bool> MaxDropRate;
     internal MelonPreferences_Entry<bool> MaxArmoryDropRate;
     internal MelonPreferences_Entry<int> IncreaseChestInAChestChance;
+    internal MelonPreferences_Entry<bool> DecreaseBonusStageCoinsChance;
 
     protected override void SetBindings()
     {
@@ -20,5 +21,7 @@ internal sealed class Settings(string configName) : BaseConfig(configName)
             "Toggle Max Drop Rate");
         IncreaseChestInAChestChance = Bind("IncreaseChestInAChestChance", 0,
             "Increase Chest in a Chest chance. With '4' you will probably get a chest in every chest hunt game. Its not recommended more than 4");
+        DecreaseBonusStageCoinsChance = Bind("DecreaseBonusStageCoinsChance", false,
+            "Decrease the chance of obtaining coins to 0 in Bonus Stages Boxes");
     }
 }

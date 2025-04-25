@@ -10,9 +10,19 @@ public class Enhanced_Drop_Rate : MonoBehaviour
     private PlayerInventory _playerInventory;
     public static Il2CppReferenceArray<DropObject> _dropClones;
 
+    private MapController _mapController;
+    private BonusMapController _bonusController;
+    private bool _isInBonusGame;
+    private double _playerDecreaseRandomBoxCoinsChances;
+
     public void Awake()
     {
         _playerInventory = GameObject.Find("Player Inventory").GetComponent<PlayerInventory>();
+
+        // Bonus Stage 
+        _mapController = GameObject.Find("Map").GetComponent<MapController>();
+        _bonusController = GameObject.Find("Bonus Map Controller").GetComponent<BonusMapController>();
+        _playerDecreaseRandomBoxCoinsChances = _playerInventory.decreaseRandomBoxCoinsChances;
     }
 
     public void Start()
@@ -57,6 +67,14 @@ public class Enhanced_Drop_Rate : MonoBehaviour
         {
             _playerInventory.increaseChestHuntArmoryChestsChance = Plugin.Settings.IncreaseChestInAChestChance.Value;
         }
+        _isInBonusGame = _mapController.selectedMap.name.Contains("bonus");
+
+        // only do logic in bonus stages
+        if ((_isInBonusGame || _bonusController.showCurrentTime )&& Plugin.Settings.DecreaseBonusStageCoinsChance.Value)
+            _playerInventory.decreaseRandomBoxCoinsChances = 100;
+        else
+            _playerInventory.decreaseRandomBoxCoinsChances = _playerDecreaseRandomBoxCoinsChances;
+
     }
 }
 
