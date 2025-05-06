@@ -53,3 +53,9 @@ CodeCoverage/
 TestResult.xml
 nunit-*.xml
 *.csproj.user
+/.vs
+/Libraries
+/Cosmetic/Cosmetic.csproj
+/Enhanced_Divinities/Enhanced_Divinities.csproj
+/Enhanced_Drop_Rate/Enhanced_Drop_Rate.csproj
+/Enhanced_Quests/Enhanced_Quests.csproj
