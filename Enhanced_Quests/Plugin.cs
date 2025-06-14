@@ -22,7 +22,7 @@ public class Plugin : MelonMod
     public override void OnSceneWasLoaded(int buildIndex, string sceneName)
     {
         if (sceneName != "Game") return;
-        ModUtils.RegisterComponent<Enhaced_Quests>();
+        ModUtils.RegisterComponent<Enhanced_Quests>();
         ModUtils.RegisterComponent<CraftableSkills>();
     }
 }

@@ -2,39 +2,79 @@ using HarmonyLib;
 using Il2Cpp;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using MelonLoader;
+using System.Linq;
 
 namespace Enhanced_Quests;
 
-public class Enhaced_Quests : MonoBehaviour
+public class Enhanced_Quests : MonoBehaviour
 {
-    private static Il2CppSystem.Collections.Generic.List<Quest> _questsList;
-    private static DailyQuestsManager _dailyQuestsManager;
-    private static WeeklyQuestsManager _weeklyQuestsManager;
-    private static GameObject _dailyQuestManagerObject;
-    private static GameObject _gameObject;
-    private static PortalButton _portalButton;
-    private static DailyQuestReroll _dailyQuestReroll;
-    private static WeeklyQuestReroll _weeklyQuestReroll;
+    public static Enhanced_Quests Instance { get; private set; }
+
+    private Il2CppSystem.Collections.Generic.List<Quest> _questsList;
+    private DailyQuestsManager _dailyQuestsManager;
+    private WeeklyQuestsManager _weeklyQuestsManager;
+    private GameObject _gameObject;
+    private PortalButton _portalButton;
+    private DailyQuestReroll _dailyQuestReroll;
+    private WeeklyQuestReroll _weeklyQuestReroll;
+    private bool questsChecking = false;
+
+    public bool claimingQuest = false;
 
     public void Awake()
     {
-        CheckToRegenerate();
+        Instance = this;
+
         _portalButton = PortalButton.instance;
         _dailyQuestReroll = DailyQuestReroll.instance;
         _weeklyQuestReroll = WeeklyQuestReroll.instance;
 
-        CheckToRerollQuests();
+        _dailyQuestsManager = DailyQuestsManager.instance;
+        _weeklyQuestsManager = WeeklyQuestsManager.instance;
     }
 
-    // Comprobar si es necesario volver a conseguir los objects etc
-    public static void CheckToRegenerate()
-    {
-        _dailyQuestManagerObject = GameObject.Find("Daily Quest Manager");
-        _dailyQuestsManager = _dailyQuestManagerObject.GetComponent<DailyQuestsManager>();
-        _weeklyQuestsManager = _dailyQuestManagerObject.GetComponent<WeeklyQuestsManager>();
+    public void Start()
+    { 
+        CheckToRegenerate();
+        CheckToRerollQuests();    
+    }
 
+    public void RefreshQuestList() 
+    { 
         _gameObject = GameObject.Find("UIManager/Safe Zone/Shop Panel/Wrapper/Quests/Quests");
-        _questsList = _gameObject.GetComponent<QuestsList>().lastScrollListData;
+        _questsList = _gameObject.GetComponent<QuestsList>().lastScrollListData;    
+    }
+    public void Update()
+    {
+        if (!questsChecking)
+        {
+            questsChecking = true;
+            CheckQuests();
+        }
+    }
+
+    private void CheckQuests()
+    {
+        RefreshQuestList();
+        if (_questsList != null && _questsList.Count > 0)
+        {
+            foreach (Quest quest in _questsList)
+            {
+                if (quest.CanBeClaimed())
+                {
+                    quest.Claim();
+                    CheckToRegenerate();
+                }
+            }
+        }
+        questsChecking = false;
+    }
+
+    public void CheckToRegenerate()
+    {
+        RefreshQuestList();
 
         int dailyQuestsCount = 0;
         int weeklyQuestsCount = 0;
@@ -46,23 +86,55 @@ public class Enhaced_Quests : MonoBehaviour
                 weeklyQuestsCount++;
             else if (questTypeName == "DailyQuest")
                 dailyQuestsCount++;
+
         }
 
-        if (dailyQuestsCount == 0 && CraftableSkills.dailyQuests && Plugin.Settings.ResetDailies.Value)
+        if (dailyQuestsCount == 0 && CraftableSkills.dailyQuests.IsActive() && Plugin.Settings.ResetDailies.Value)
             _dailyQuestsManager.RegenerateDailys();
 
-        if (weeklyQuestsCount == 0 && CraftableSkills.weeklyQuests && Plugin.Settings.ResetWeeklies.Value)
+        if (weeklyQuestsCount == 0 && CraftableSkills.weeklyQuests.IsActive() && Plugin.Settings.ResetWeeklies.Value)
             _weeklyQuestsManager.RegenerateWeeklies();
-
+        
+        RefreshQuestList();
     }
 
-    [HarmonyPatch(typeof(Button), "Press")]
-    public class Patch_PrestigeButton
+    [HarmonyPatch(typeof(DailyQuest), "Claim")]
+    public static class Patch_DailyQuestClaim
     {
-        static void Postfix(Button __instance)
+        static void Postfix(Quest __instance)
         {
-            if (__instance.name != "Button") return;
-            CheckToRegenerate();
+            if (__instance == null) return;
+            Enhanced_Quests.Instance?.Invoke(
+                nameof(Enhanced_Quests.CheckToRegenerate), 2f);
+        }
+    }
+
+    [HarmonyPatch(typeof(WeeklyQuest), "Claim")]
+    public class Patch_WeeklyQuestClaim
+    {
+        static void Postfix(Quest __instance)
+        {
+            if (__instance == null) return;
+            Enhanced_Quests.Instance?.Invoke(
+                nameof(Enhanced_Quests.CheckToRegenerate),2f);
+        }
+    }
+
+    [HarmonyPatch(typeof(DailyQuestReroll), "RewardForShowing")]
+    public class Patch_DailyQuestRerollReward
+    {
+        static void Postfix()
+        {
+            Enhanced_Quests.Instance?.CheckToRerollQuests();
+        }
+    }
+
+    [HarmonyPatch(typeof(WeeklyQuestReroll), "RewardForShowing")]
+    public class Patch_WeeklyQuestRerollReward
+    {
+        static void Postfix()
+        {
+            Enhanced_Quests.Instance?.CheckToRerollQuests();
         }
     }
 
@@ -72,28 +144,17 @@ public class Enhaced_Quests : MonoBehaviour
         static void Postfix(Button __instance)
         {
             if (__instance.name != "Portal Button" && __instance.name != "Portal Button(Clone)") return;
-            CheckToResetPortal();
+            Enhanced_Quests.Instance?.CheckToResetPortal();
         }
     }
 
-    [HarmonyPatch(typeof(Button), "Press")]
-    public class Patch_RerollButton
-    {
-        static void Postfix(Button __instance)
-        {
-            if (__instance.name != "Confirm Button" && __instance.name != "Open Shop") return;
-
-            CheckToRerollQuests();
-        }
-    }
-
-    public static void CheckToResetPortal()
+    public void CheckToResetPortal()
     {
         if (_portalButton.currentCd > 0 && Plugin.Settings.ResetPortal.Value)
             _portalButton.currentCd = 0;
     }
 
-    public static void CheckToRerollQuests()
+    public void CheckToRerollQuests()
     {
         if (Plugin.Settings.ResetReroll.Value)
         {
