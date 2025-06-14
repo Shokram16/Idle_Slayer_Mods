@@ -1,0 +1,11 @@
+{
+  "name": "Enhanced_Divinities",
+  "version": "1.0.3",
+  "author": "Shokram",
+  "description": "Boost your Divnity Points!",
+  "nexus_id": "8",
+  "github_url": "https://github.com/Shokram16/Idle_Slayer_Mods",
+  "donate_url": "",
+  "dependencies": ["Idle Slayer Mods Core"],
+  "additional_files": []
+}

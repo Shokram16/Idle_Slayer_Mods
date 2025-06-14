@@ -8,9 +8,12 @@ namespace Enhanced_Divinities;
 
 public class Enhanced_Divinities : MonoBehaviour
 {
+    public static PlayerInventory _playerInventory;
     private void Awake()
     {
         Plugin.Logger.Msg($"Enhaced Divinities Started");
+        _playerInventory = GameObject.Find("Player Inventory").GetComponent<PlayerInventory>();
+
 
     }
 
@@ -35,7 +38,7 @@ public class Enhanced_Divinities : MonoBehaviour
         {
             if (__instance.name == "Confirm Button" && PrestigeContext.IsPrestigePopupOpen)
             {
-                Il2CppArrayBase<Minion> minions = (Il2CppReferenceArray<Minion>)Resources.FindObjectsOfTypeAll<Minion>();
+                Il2CppArrayBase<Minion> minions = _playerInventory.minions;
 
                 foreach (var minion in minions)
                 {
