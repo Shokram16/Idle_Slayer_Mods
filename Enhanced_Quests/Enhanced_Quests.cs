@@ -57,6 +57,12 @@ public class Enhanced_Quests : MonoBehaviour
 
     private void CheckQuests()
     {
+        if (Plugin.Settings.DisableAutoClaim.Value)
+        {
+            questsChecking = false;
+            return;
+        }
+
         RefreshQuestList();
         if (_questsList != null && _questsList.Count > 0)
         {
