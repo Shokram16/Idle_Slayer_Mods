@@ -66,3 +66,6 @@ nunit-*.xml
 /Enhanced_Quests/.vs/Enhanced_Quests/FileContentIndex
 /Enhanced_Quests/.vs/Enhanced_Quests/v17
 /Enhanced_Quests/.vs/ProjectEvaluation
+
+# JETBRAINS
+.idea/

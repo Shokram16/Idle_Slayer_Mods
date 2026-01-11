@@ -54,12 +54,14 @@ public class Enhanced_Drop_Rate : MonoBehaviour
         if ((_playerInventory.armoryExcellentModifier < 100 ||
             _playerInventory.armoryOptionsModifier < 100 ||
             _playerInventory.armoryItemAscendingHeightsChance < 100 ||
+            _playerInventory.armoryItemGrappleRunChance < 100 ||
             _playerInventory.increaseBonusStageArmoryChestsChance < 100) &&
             Plugin.Settings.MaxArmoryDropRate.Value)
         {
             _playerInventory.armoryExcellentModifier = 100;
             _playerInventory.armoryOptionsModifier = 100;
             _playerInventory.armoryItemAscendingHeightsChance = 100;
+            _playerInventory.armoryItemGrappleRunChance = 100;
             _playerInventory.increaseBonusStageArmoryChestsChance = 100;
         }
 
@@ -77,5 +79,3 @@ public class Enhanced_Drop_Rate : MonoBehaviour
 
     }
 }
-
-
